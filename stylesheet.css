@@ -1,0 +1,135 @@
+/* ── Card base ─────────────────────────────────────── */
+.aether-card {
+    background-color: rgba(0, 0, 0, 0.45);
+    border-radius: 16px;
+    border: 2px solid transparent;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.42);
+    padding: 14px 18px;
+    transition-duration: 200ms;
+}
+
+/* Edit mode: accent outline tells the user it's draggable. */
+.aether-card.edit-mode {
+    background-color: rgba(0, 0, 0, 0.6);
+    border: 2px solid rgba(57, 197, 207, 0.7);
+}
+.aether-card.edit-mode:hover {
+    background-color: rgba(10, 10, 10, 0.7);
+}
+.aether-card.dragging {
+    border: 2px solid rgba(57, 197, 207, 1.0);
+}
+
+/* On-screen hint shown while edit mode is active. */
+.aether-edit-banner {
+    background-color: rgba(57, 197, 207, 0.95);
+    color: #04161a;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 9px 20px;
+    border-radius: 22px;
+}
+
+/* ── Clock ────────────────────────────────────────── */
+.aether-clock-dow {
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    margin-bottom: 6px;
+}
+.aether-clock-time {
+    font-size: 56px;
+    font-weight: 300;
+    color: white;
+}
+.aether-clock-date {
+    font-size: 14px;
+    font-weight: normal;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 2px;
+    letter-spacing: 0.5px;
+}
+
+/* ── Section title (system / storage / network) ───── */
+.aether-sysmon-title {
+    font-size: 11px;
+    font-weight: bold;
+    color: rgba(57, 197, 207, 0.9);
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+}
+
+.aether-sysmon-row {
+    margin-top: 8px;
+}
+
+.aether-row-icon {
+    margin-right: 10px;
+}
+
+.aether-sysmon-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 1px;
+}
+
+.aether-sysmon-value {
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+}
+
+/* ── Network (no bars — speed only) ───────────────── */
+.aether-net-row {
+    margin-top: 8px;
+}
+.aether-net-value {
+    font-size: 18px;
+    font-weight: 300;
+    color: white;
+}
+
+/* ── Weather ──────────────────────────────────────── */
+.aether-weather-location {
+    font-size: 11px;
+    font-weight: bold;
+    color: rgba(57, 197, 207, 0.9);
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+}
+.aether-weather-icon {
+    font-size: 40px;
+    margin-right: 8px;
+}
+.aether-weather-temp {
+    font-size: 48px;
+    font-weight: 300;
+    color: white;
+}
+.aether-weather-cond {
+    font-size: 14px;
+    font-weight: normal;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 4px;
+}
+.aether-weather-hilo {
+    font-size: 12px;
+    font-weight: normal;
+    color: rgba(255, 255, 255, 0.45);
+    margin-top: 2px;
+    letter-spacing: 0.5px;
+}
+
+/* ── Load bars ────────────────────────────────────── */
+.aether-bar-track {
+    width: 196px;
+    height: 6px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    margin-top: 4px;
+}
+.aether-bar-fill {
+    border-radius: 3px;
+    /* background-color is set per-tick in JS based on load. */
+}

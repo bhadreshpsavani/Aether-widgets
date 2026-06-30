@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.aether-widgets"
+          path="/org/gnome/shell/extensions/aether-widgets/">
+
+    <key type="as" name="enabled-widgets">
+      <default>['clock', 'sysmon', 'storage', 'network', 'weather']</default>
+      <summary>List of enabled widget IDs</summary>
+      <description>Only widgets whose IDs appear in this list are mounted on the desktop.</description>
+    </key>
+
+    <key type="as" name="toggle-edit-mode">
+      <default><![CDATA[['<Super><Alt>w']]]></default>
+      <summary>Toggle widget edit mode</summary>
+      <description>Raises widgets above windows so they can be dragged, then locks them back.</description>
+    </key>
+
+    <!-- Appearance -->
+    <key type="s" name="accent-color">
+      <default>'#39c5cf'</default>
+      <summary>Accent colour (hex) used for titles and highlights</summary>
+    </key>
+    <key type="d" name="card-opacity">
+      <default>0.45</default>
+      <summary>Card background opacity (0–1)</summary>
+    </key>
+
+    <!-- System monitor options -->
+    <key type="s" name="gpu-mode">
+      <default>'all'</default>
+      <summary>Which GPUs to show: all, primary, or off</summary>
+    </key>
+    <key type="b" name="show-cpu-temp">
+      <default>true</default>
+      <summary>Show CPU temperature in the system card</summary>
+    </key>
+    <key type="b" name="show-swap">
+      <default>true</default>
+      <summary>Show swap usage in the system card</summary>
+    </key>
+
+    <!-- Weather -->
+    <key type="b" name="weather-auto-location">
+      <default>true</default>
+      <summary>Detect location automatically via IP</summary>
+    </key>
+    <key type="d" name="weather-latitude">
+      <default>23.03</default>
+      <summary>Weather latitude</summary>
+    </key>
+    <key type="d" name="weather-longitude">
+      <default>72.58</default>
+      <summary>Weather longitude</summary>
+    </key>
+    <key type="s" name="weather-location">
+      <default>'Ahmedabad'</default>
+      <summary>Weather location display name</summary>
+    </key>
+    <key type="s" name="weather-unit">
+      <default>'celsius'</default>
+      <summary>Temperature unit: celsius or fahrenheit</summary>
+    </key>
+
+    <!-- Positions -->
+    <key type="i" name="clock-x"><default>80</default><summary>Clock X</summary></key>
+    <key type="i" name="clock-y"><default>80</default><summary>Clock Y</summary></key>
+    <key type="i" name="sysmon-x"><default>80</default><summary>System monitor X</summary></key>
+    <key type="i" name="sysmon-y"><default>300</default><summary>System monitor Y</summary></key>
+    <key type="i" name="storage-x"><default>340</default><summary>Storage X</summary></key>
+    <key type="i" name="storage-y"><default>300</default><summary>Storage Y</summary></key>
+    <key type="i" name="network-x"><default>600</default><summary>Network X</summary></key>
+    <key type="i" name="network-y"><default>300</default><summary>Network Y</summary></key>
+    <key type="i" name="weather-x"><default>340</default><summary>Weather X</summary></key>
+    <key type="i" name="weather-y"><default>80</default><summary>Weather Y</summary></key>
+
+  </schema>
+</schemalist>

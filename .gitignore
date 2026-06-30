@@ -1,0 +1,12 @@
+# Build artifacts
+schemas/gschemas.compiled
+
+# Editors
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# OS
+.DS_Store

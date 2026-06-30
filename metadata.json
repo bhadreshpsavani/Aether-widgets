@@ -1,0 +1,10 @@
+{
+  "uuid": "[email protected]",
+  "name": "Aether Widgets",
+  "description": "A modern, open-source widget library for the GNOME Shell. Ships a clock and system monitor, and exposes a small framework for building your own panel widgets.",
+  "shell-version": ["48", "49", "50"],
+  "url": "https://github.com/bhadreshpsavani/aether-widgets",
+  "settings-schema": "org.gnome.shell.extensions.aether-widgets",
+  "gettext-domain": "aether-widgets",
+  "version-name": "0.1.0"
+}
