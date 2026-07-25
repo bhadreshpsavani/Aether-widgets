@@ -4,7 +4,7 @@ import GLib from 'gi://GLib';
 import Pango from 'gi://Pango';
 
 import { BaseWidget, getBool, getStr } from '../lib/base.js';
-import { makeRow, makeIcon, setRow, setPct } from '../lib/meter.js';
+import { makeRow, makeIcon, setRow, setPct, loadColor } from '../lib/meter.js';
 
 const RE_MEM_TOTAL = /MemTotal:\s+(\d+)/;
 const RE_MEM_AVAILABLE = /MemAvailable:\s+(\d+)/;
@@ -38,10 +38,14 @@ function _detectGpus() {
 
         for (const card of cards) {
             const base = `/sys/class/drm/${card}/device`;
-            if (readSysFile(`${base}/gpu_busy_percent`) === null) continue;
+            if (!GLib.file_test(`${base}/gpu_busy_percent`, GLib.FileTest.EXISTS)) continue;
             const vram = readSysFile(`${base}/mem_info_vram_total`);
             found.push({
+                base,
                 busyPath: `${base}/gpu_busy_percent`,
+                vramTotalPath: `${base}/mem_info_vram_total`,
+                vramUsedPath: `${base}/mem_info_vram_used`,
+                runtimeStatusPath: `${base}/power/runtime_status`,
                 integrated: vram !== null && vram <= IGPU_VRAM_MAX,
                 bootVga: readSysFile(`${base}/boot_vga`) === 1,
             });
@@ -56,7 +60,15 @@ function _detectGpus() {
             label = found.filter(x => x.integrated).length > 1 ? `iGPU${++iIdx}` : 'iGPU';
         else
             label = discreteCount > 1 ? `GPU${++dIdx}` : 'GPU';
-        return { busyPath: g.busyPath, label, bootVga: g.bootVga };
+        return {
+            base: g.base,
+            busyPath: g.busyPath,
+            vramTotalPath: g.vramTotalPath,
+            vramUsedPath: g.vramUsedPath,
+            runtimeStatusPath: g.runtimeStatusPath,
+            label,
+            bootVga: g.bootVga
+        };
     });
 }
 
@@ -129,6 +141,9 @@ class SystemMonitorWidget extends BaseWidget {
         this._gpuRows = gpus.map(g => {
             const row = add(g.label, 'gpu');
             row.busyPath = g.busyPath;
+            row.vramTotalPath = g.vramTotalPath;
+            row.vramUsedPath = g.vramUsedPath;
+            row.runtimeStatusPath = g.runtimeStatusPath;
             return row;
         });
 
@@ -203,8 +218,45 @@ class SystemMonitorWidget extends BaseWidget {
         }
 
         for (const row of this._gpuRows) {
+            let isSuspended = false;
+            try {
+                if (GLib.file_test(row.runtimeStatusPath, GLib.FileTest.EXISTS)) {
+                    const [ok, bytes] = GLib.file_get_contents(row.runtimeStatusPath);
+                    if (ok) {
+                        const status = new TextDecoder().decode(bytes).trim();
+                        if (status === 'suspended') {
+                            isSuspended = true;
+                        }
+                    }
+                }
+            } catch (_e) {}
+
+            if (isSuspended) {
+                setRow(row, {
+                    text: 'Suspended',
+                    fraction: 0,
+                    color: '#6b7280'
+                });
+                continue;
+            }
+
             const busy = readSysFile(row.busyPath);
-            if (busy !== null) setPct(row, busy);
+            const vramTotal = readSysFile(row.vramTotalPath);
+            const vramUsed = readSysFile(row.vramUsedPath);
+
+            if (busy !== null) {
+                if (vramTotal && vramTotal > 0 && vramUsed !== null) {
+                    const vramUsedGB = vramUsed / (1024 * 1024 * 1024);
+                    const vramTotalGB = vramTotal / (1024 * 1024 * 1024);
+                    setRow(row, {
+                        text: `${busy.toFixed(0)}% (${vramUsedGB.toFixed(1)}/${vramTotalGB.toFixed(0)} GB)`,
+                        fraction: busy / 100,
+                        color: loadColor(busy)
+                    });
+                } else {
+                    setPct(row, busy);
+                }
+            }
         }
     }
 });
